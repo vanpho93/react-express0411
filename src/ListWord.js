@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import Word from './Word';
 import WordForm from './WordForm';
 
@@ -6,26 +7,17 @@ export default class ListWord extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            words: [
-                {
-                    "_id": "5a22055ad32c6d0d16d58963",
-                    "vn": "MOT",
-                    "en": "one",
-                    "__v": 0,
-                    "isMemorized": true
-                },
-                {
-                    "_id": "5a2220260af2f816490b4762",
-                    "en": "four",
-                    "vn": "bon",
-                    "__v": 0,
-                    "isMemorized": false
-                }
-            ]
+            words: []
         };
         this.onAddWord = this.onAddWord.bind(this);
         this.onRemoveWord = this.onRemoveWord.bind(this);
         this.onToggleWord = this.onToggleWord.bind(this);
+    }
+
+    componentDidMount() {
+        axios.get('http://localhost:4000/word')
+        .then(res => this.setState({ words: res.data.words }))
+        .catch(err => console.log(err));
     }
 
     onAddWord(word) {
