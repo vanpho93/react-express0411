@@ -29,16 +29,29 @@ export default class ListWord extends Component {
     }
 
     onRemoveWord(id) {
-        const { words } = this.state;
-        this.setState({ words: words.filter(word => word._id !== id) });
+        axios.delete(`http://localhost:4000/word/${id}`)
+        .then(() => {
+            const { words } = this.state;
+            this.setState({ words: words.filter(word => word._id !== id) });
+        })
+        .catch(err => console.log(err));
     }
 
-    onToggleWord(id) {
-        const { words } = this.state;
-        this.setState({ words: words.map(word => {
-            if(word._id !== id) return word;
-            return { ...word, isMemorized: !word.isMemorized }
-        })});
+    onToggleWord(word) {
+        const data = { ...word, isMemorized: !word.isMemorized };
+        axios.put('http://localhost:4000/word', data)
+        .then(() => {
+            const { words } = this.state;
+            this.setState({ words: words.map(w => {
+                if(w._id !== word._id) return w;
+                return { ...w, isMemorized: !w.isMemorized }
+            })});
+        })
+        // const { words } = this.state;
+        // this.setState({ words: words.map(word => {
+        //     if(word._id !== id) return word;
+        //     return { ...word, isMemorized: !word.isMemorized }
+        // })});
     }
 
     render() {
