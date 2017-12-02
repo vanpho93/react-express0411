@@ -15,21 +15,21 @@ export default class ListWord extends Component {
     }
 
     componentDidMount() {
-        axios.get('http://localhost:4000/word')
+        axios.get('https://rn0411.herokuapp.com/word')
         .then(res => this.setState({ words: res.data.words }))
         .catch(err => console.log(err));
     }
 
     onAddWord(word) {
         const { words } = this.state;
-        axios.post('http://localhost:4000/word', word)
+        axios.post('https://rn0411.herokuapp.com/word', word)
         .then(res => this.setState({ words: words.concat(res.data.word) }))
         .catch(err => console.log(err));
         // this.setState({ words: words.concat(word) })
     }
 
     onRemoveWord(id) {
-        axios.delete(`http://localhost:4000/word/${id}`)
+        axios.delete(`https://rn0411.herokuapp.com/word/${id}`)
         .then(() => {
             const { words } = this.state;
             this.setState({ words: words.filter(word => word._id !== id) });
@@ -39,7 +39,7 @@ export default class ListWord extends Component {
 
     onToggleWord(word) {
         const data = { ...word, isMemorized: !word.isMemorized };
-        axios.put('http://localhost:4000/word', data)
+        axios.put('https://rn0411.herokuapp.com/word', data)
         .then(() => {
             const { words } = this.state;
             this.setState({ words: words.map(w => {
@@ -70,3 +70,6 @@ export default class ListWord extends Component {
         );
     }
 }
+// https://www.youtube.com/watch?v=cUIOyVUquFI
+// https://www.youtube.com/watch?v=yxf7_A2jAlQ
+
