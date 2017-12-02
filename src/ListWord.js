@@ -22,7 +22,10 @@ export default class ListWord extends Component {
 
     onAddWord(word) {
         const { words } = this.state;
-        this.setState({ words: words.concat(word) })
+        axios.post('http://localhost:4000/word', word)
+        .then(res => this.setState({ words: words.concat(res.data.word) }))
+        .catch(err => console.log(err));
+        // this.setState({ words: words.concat(word) })
     }
 
     onRemoveWord(id) {
